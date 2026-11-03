@@ -1,0 +1,1319 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Escape Room - The Lost Treasure</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+:root {
+  --purple: #a995ff;
+  --gold: #ffd36b;
+  --dark: #15182a;
+  --panel: #242941;
+  --muted: #aeb5d0;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--dark);
+  color: white;
+  font-family: 'Nunito', sans-serif;
+}
+
+button, input { font: inherit; }
+
+button { cursor: pointer; }
+
+header {
+  background: #20243b;
+  border-bottom: 2px solid #65588e;
+  padding: 13px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  color: var(--gold);
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.header-right {
+  color: #d8d4f5;
+  font-size: 13px;
+}
+
+main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid #424966;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+h1, h2, h3, p { margin-top: 0; }
+
+h2 { color: var(--gold); }
+
+button.primary {
+  background: var(--purple);
+  color: #17172a;
+  border: none;
+  border-radius: 11px;
+  padding: 12px 22px;
+  font-weight: 900;
+}
+
+button.primary:hover { background: #c2b5ff; }
+
+button.secondary {
+  background: #383f60;
+  color: white;
+  border: 1px solid #666e91;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+
+.hidden { display: none !important; }
+
+/* HOME */
+
+#home {
+  text-align: center;
+  padding: 35px 20px;
+}
+
+.hero-icon {
+  font-size: 95px;
+  animation: float 2s infinite ease-in-out;
+}
+
+@keyframes float {
+  50% { transform: translateY(-12px); }
+}
+
+.home-title {
+  font-size: clamp(27px, 5vw, 43px);
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.description {
+  color: #c7cce0;
+  line-height: 1.8;
+  max-width: 620px;
+  margin: 10px auto 23px;
+}
+
+.instructions {
+  max-width: 550px;
+  margin: 20px auto;
+  background: #303650;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: left;
+  line-height: 1.9;
+}
+
+/* GAME INFO */
+
+.top-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.stat {
+  background: #303650;
+  padding: 12px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 12px;
+  color: #c4c9dc;
+}
+
+.stat strong {
+  display: block;
+  color: var(--gold);
+  font-size: 19px;
+  margin-top: 4px;
+}
+
+.progress {
+  height: 8px;
+  background: #414864;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+#progressBar {
+  width: 0%;
+  height: 100%;
+  background: var(--gold);
+  transition: width .5s;
+}
+
+/* INVENTORY */
+
+.inventory {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.inventory-item {
+  background: #383d5c;
+  border: 1px solid #60678c;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+/* SCENE */
+
+.scene {
+  position: relative;
+  height: 440px;
+  border: 3px solid #646084;
+  border-radius: 17px;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(#242d49 0%, #343c59 68%, #705b55 68%, #483c3d 100%);
+}
+
+.scene::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 68%;
+  background:
+    linear-gradient(90deg, transparent 49.5%, #ffffff12 50%, transparent 50.5%);
+  border-bottom: 8px solid #8c7771;
+  z-index: -1;
+}
+
+.scene::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 32%;
+  background: repeating-linear-gradient(
+    90deg,
+    #554347 0px,
+    #554347 95px,
+    #634e4e 96px,
+    #634e4e 99px
+  );
+  z-index: -1;
+}
+
+.scene.library {
+  background: linear-gradient(#292542 0%, #413453 68%, #69504c 68%);
+}
+
+.scene.lab {
+  background: linear-gradient(#193b47 0%, #31545d 68%, #53646a 68%);
+}
+
+.scene.temple {
+  background: linear-gradient(#382d3d 0%, #59414b 68%, #796052 68%);
+}
+
+.scene-top {
+  position: absolute;
+  top: 12px;
+  left: 15px;
+  right: 15px;
+  display: flex;
+  justify-content: space-between;
+  color: #f8e8c4;
+  font-size: 12px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.hotspot {
+  position: absolute;
+  border: 2px solid transparent;
+  background: #15182a55;
+  border-radius: 13px;
+  color: white;
+  min-width: 75px;
+  min-height: 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  padding: 7px;
+  transition: .2s;
+  animation: appear .5s;
+  z-index: 2;
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: scale(.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.hotspot:hover {
+  background: #a995ff66;
+  border-color: var(--gold);
+  transform: scale(1.08);
+}
+
+.hotspot .emoji { font-size: 35px; }
+
+.hotspot small {
+  font-size: 11px;
+  font-weight: 900;
+  text-shadow: 0 2px 5px black;
+}
+
+.hotspot.done {
+  opacity: .55;
+  filter: grayscale(.5);
+}
+
+.hotspot.door {
+  background: #171a32;
+  border: 3px solid #b48b56;
+  border-radius: 8px;
+}
+
+.hotspot.door:hover { opacity: 1; }
+
+.scene-message {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111629dd;
+  color: #fff2c8;
+  padding: 9px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  max-width: 95%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* MODALS */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: #090b17dc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  backdrop-filter: blur(5px);
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 440px;
+  background: #242941;
+  border: 2px solid #8274bb;
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 15px 60px #0008;
+  animation: popup .25s;
+}
+
+@keyframes popup {
+  from { transform: scale(.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-icon { font-size: 55px; }
+
+.modal-box p {
+  color: #cbd0e2;
+  line-height: 1.7;
+}
+
+.answer-input {
+  width: 100%;
+  padding: 14px;
+  background: #151a2e;
+  color: white;
+  border: 2px solid #8073b5;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 22px;
+  outline: none;
+  margin: 12px 0;
+}
+
+.feedback {
+  min-height: 25px;
+  font-weight: 800;
+  margin: 10px 0;
+}
+
+.keypad-display {
+  background: #111729;
+  border: 2px solid #b49b62;
+  border-radius: 12px;
+  padding: 12px;
+  color: var(--gold);
+  font-size: 30px;
+  letter-spacing: 9px;
+  min-height: 62px;
+  margin: 15px 0;
+}
+
+.key-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.key-grid button {
+  padding: 13px;
+  background: #3a4162;
+  border: 1px solid #68719c;
+  color: white;
+  border-radius: 10px;
+  font-size: 19px;
+  font-weight: 900;
+}
+
+.key-grid button:hover { background: #5c578e; }
+
+.key-grid .enter {
+  background: #9d8aff;
+  color: #15162b;
+}
+
+.key-grid .clear { color: #ffb0ad; }
+
+#toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background: #333b5a;
+  border: 1px solid #8176b7;
+  padding: 12px 20px;
+  border-radius: 30px;
+  text-align: center;
+  font-size: 13px;
+  box-shadow: 0 5px 20px #0007;
+  max-width: 90%;
+}
+
+/* FINISH */
+
+#finish {
+  text-align: center;
+  padding: 45px 20px;
+}
+
+.treasure {
+  font-size: 100px;
+  animation: float 2s infinite;
+}
+
+.result-score {
+  color: var(--gold);
+  font-size: 40px;
+  font-weight: 900;
+}
+
+@media(max-width:600px) {
+  main { padding: 12px; }
+
+  .scene { height: 390px; }
+
+  .hotspot {
+    min-width: 65px;
+    min-height: 68px;
+  }
+
+  .hotspot .emoji { font-size: 29px; }
+
+  .top-stats { grid-template-columns: repeat(2, 1fr); }
+
+  .panel { padding: 14px; }
+
+  header { flex-wrap: wrap; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🔐 MATH ESCAPE ROOM</div>
+  <div class="header-right">💎 THE LOST TREASURE</div>
+</header>
+
+<main>
+
+<!-- HALAMAN AWAL -->
+
+<section id="home" class="panel">
+  <div class="hero-icon">🏰</div>
+  <h1 class="home-title">THE LOST TREASURE</h1>
+  <h3>Petualangan Mencari Harta Karun</h3>
+
+  <p class="description">
+    Kamu adalah seorang penjelajah yang menemukan
+    sebuah bangunan kuno berisi harta karun.
+    Namun, empat ruangan di dalamnya terkunci.
+    Untuk menemukan harta karun, kamu harus
+    memecahkan teka-teki matematika dan menemukan
+    kode rahasia di setiap ruangan.
+  </p>
+
+  <div class="instructions">
+    <b style="color:#ffd36b">📜 CARA BERMAIN</b><br>
+    🔍 Klik benda-benda di dalam ruangan.<br>
+    🎒 Kumpulkan benda ke inventaris.<br>
+    🧩 Temukan dan pecahkan teka-teki.<br>
+    🔢 Masukkan jawaban ke keypad pintu.<br>
+    🚪 Buka semua pintu untuk menemukan harta karun!
+  </div>
+
+  <button class="primary" onclick="startGame()">
+    MULAI PETUALANGAN 🚀
+  </button>
+</section>
+
+<!-- HALAMAN GAME -->
+
+<section id="game" class="hidden">
+
+  <div class="panel">
+    <div class="top-stats">
+      <div class="stat">RUANGAN<strong id="level">1 / 4</strong></div>
+      <div class="stat">SKOR<strong id="score">0</strong></div>
+      <div class="stat">PETUNJUK<strong id="clueCount">0 / 4</strong></div>
+      <div class="stat">STATUS<strong id="status">Mencari</strong></div>
+    </div>
+
+    <div class="progress">
+      <div id="progressBar"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2 id="roomTitle">📚 Ruang Kelas</h2>
+    <p id="roomDescription" style="color:#c8cee0;line-height:1.6">
+      Cari benda-benda untuk menemukan petunjuk.
+    </p>
+
+    <div class="scene" id="scene">
+      <div class="scene-top">
+        <span id="sceneLabel">AREA 01</span>
+        <span>🔍 KLIK BENDA UNTUK MEMERIKSA</span>
+      </div>
+      <div id="objects"></div>
+      <div class="scene-message" id="sceneMessage">
+        Temukan benda dan pecahkan teka-teki!
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>🎒 Inventaris Barang</h2>
+    <div class="inventory" id="inventory">
+      <span style="color:#9da5bf;font-size:13px">
+        Belum ada barang yang ditemukan.
+      </span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>📖 Buku Catatan</h2>
+    <div id="journal" style="color:#c7cce0;line-height:1.7;font-size:14px">
+      Belum ada petunjuk ditemukan.
+    </div>
+  </div>
+
+</section>
+
+<!-- HALAMAN MENANG -->
+
+<section id="finish" class="panel hidden">
+  <div class="treasure">💎</div>
+  <h1 class="home-title">HARTA KARUN DITEMUKAN!</h1>
+  <p class="description">
+    Selamat, penjelajah! Kamu berhasil melewati
+    semua ruangan, memecahkan seluruh teka-teki,
+    dan menemukan harta karun yang tersembunyi.
+  </p>
+
+  <div class="panel">
+    <h2>🏆 HASIL PETUALANGAN</h2>
+    <div class="result-score" id="finalScore">0</div>
+    <p id="finalDetail" style="color:#d0d5e6"></p>
+    <h3 style="color:#ffd36b">MASTER OF MATHEMATICS</h3>
+  </div>
+
+  <button class="primary" onclick="restartGame()">
+    MAIN LAGI 🔄
+  </button>
+</section>
+
+</main>
+
+<!-- MODAL TEKA-TEKI -->
+
+<div class="modal hidden" id="puzzleModal">
+  <div class="modal-box">
+    <div class="modal-icon">🧩</div>
+    <h2 id="puzzleTitle">Teka-teki Matematika</h2>
+    <p id="puzzleStory"></p>
+    <h3 id="puzzleQuestion" style="color:#ffd36b"></h3>
+
+    <input
+      class="answer-input"
+      id="puzzleAnswer"
+      type="number"
+      placeholder="Masukkan jawaban..."
+    >
+
+    <div class="feedback" id="puzzleFeedback"></div>
+
+    <button class="primary" onclick="checkPuzzle()">
+      PERIKSA JAWABAN
+    </button>
+
+    <button class="secondary" onclick="closeModal('puzzleModal')">
+      KEMBALI
+    </button>
+
+    <p style="font-size:12px">
+      💡 Jawaban benar akan memberikan akses ke kode pintu.
+    </p>
+  </div>
+</div>
+
+<!-- MODAL KEYPAD -->
+
+<div class="modal hidden" id="keypadModal">
+  <div class="modal-box">
+    <div class="modal-icon">🔐</div>
+    <h2>MASUKKAN KODE PINTU</h2>
+    <p>Masukkan tiga angka untuk membuka pintu.</p>
+
+    <div class="keypad-display" id="keyDisplay">---</div>
+
+    <div class="key-grid">
+      <button onclick="pressKey('1')">1</button>
+      <button onclick="pressKey('2')">2</button>
+      <button onclick="pressKey('3')">3</button>
+      <button onclick="pressKey('4')">4</button>
+      <button onclick="pressKey('5')">5</button>
+      <button onclick="pressKey('6')">6</button>
+      <button onclick="pressKey('7')">7</button>
+      <button onclick="pressKey('8')">8</button>
+      <button onclick="pressKey('9')">9</button>
+      <button class="clear" onclick="clearKey()">C</button>
+      <button onclick="pressKey('0')">0</button>
+      <button class="enter" onclick="checkCode()">OK</button>
+    </div>
+
+    <div class="feedback" id="keyFeedback"></div>
+
+    <button class="secondary" onclick="closeModal('keypadModal')">
+      TUTUP
+    </button>
+  </div>
+</div>
+
+<!-- MODAL BARANG -->
+
+<div class="modal hidden" id="itemModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="itemIcon">🗝️</div>
+    <h2 id="itemTitle">Benda ditemukan!</h2>
+    <p id="itemDescription"></p>
+    <button class="primary" onclick="closeModal('itemModal')">
+      LANJUTKAN
+    </button>
+  </div>
+</div>
+
+<div id="toast" class="hidden"></div>
+
+<script>
+
+// ===================================
+// DATA RUANGAN DAN SOAL MATEMATIKA
+// ===================================
+
+const rooms = [
+
+{
+ name: "Ruang Kelas Misterius",
+ description: "Kamu memasuki sebuah kelas tua. Ada meja, papan tulis, lemari, dan pintu besar. Cari petunjuk untuk menemukan kode keluar.",
+ theme: "",
+ puzzleTitle: "Teka-teki Operasi Hitung",
+ puzzleStory: "Di papan tulis terdapat tulisan dari penjelajah sebelumnya.",
+ question: "Berapakah hasil dari 12 × 8 + 4?",
+ answer: "100",
+ code: "100",
+ hint: "Kerjakan perkalian terlebih dahulu, kemudian penjumlahan.",
+ item: {
+   icon: "🧭",
+   name: "Kompas Kuno",
+   description: "Sebuah kompas tua ditemukan di dalam laci. Kompas ini mungkin berguna untuk perjalanan selanjutnya."
+ },
+ clue: "Papan tulis berisi operasi hitung: 12 × 8 + 4. Hasilnya adalah 100.",
+ bonus: "Bintang kecil ditemukan di bawah meja!",
+ bonusScore: 10,
+ objects: [
+  {id:"desk",name:"Meja",icon:"🪑",x:13,y:48,type:"bonus"},
+  {id:"board",name:"Papan tulis",icon:"📋",x:43,y:19,type:"puzzle"},
+  {id:"cabinet",name:"Lemari",icon:"🗄️",x:74,y:45,type:"item"},
+  {id:"door",name:"Pintu",icon:"🚪",x:85,y:51,type:"door"}
+ ]
+},
+
+{
+ name: "Perpustakaan Rahasia",
+ description: "Kamu menemukan perpustakaan kuno yang dipenuhi buku. Ada satu buku dengan simbol aneh dan sebuah lemari arsip.",
+ theme: "library",
+ puzzleTitle: "Teka-teki Aljabar",
+ puzzleStory: "Sebuah buku terbuka memperlihatkan persamaan rahasia.",
+ question: "Jika 3x + 15 = 90, berapakah nilai x?",
+ answer: "25",
+ code: "025",
+ hint: "Kurangi 90 dengan 15, kemudian bagi hasilnya dengan 3.",
+ item: {
+   icon: "📕",
+   name: "Buku Rahasia",
+   description: "Buku ini berisi catatan tentang keberadaan harta karun."
+ },
+ clue: "Persamaan 3x + 15 = 90 menghasilkan x = 25.",
+ bonus: "Kamu menemukan koin emas di antara buku!",
+ bonusScore: 10,
+ objects: [
+  {id:"books",name:"Rak buku",icon:"📚",x:13,y:30,type:"puzzle"},
+  {id:"book",name:"Buku",icon:"📕",x:42,y:49,type:"item"},
+  {id:"coin",name:"Koin",icon:"🪙",x:67,y:54,type:"bonus"},
+  {id:"door",name:"Pintu",icon:"🚪",x:86,y:50,type:"door"}
+ ]
+},
+
+{
+ name: "Laboratorium Geometri",
+ description: "Di ruangan ketiga terdapat alat ukur, meja eksperimen, dan gambar bangun datar. Kamu harus memecahkan kode luas bangun.",
+ theme: "lab",
+ puzzleTitle: "Teka-teki Geometri",
+ puzzleStory: "Di atas meja terdapat gambar persegi panjang.",
+ question: "Sebuah persegi panjang memiliki panjang 12 cm dan lebar 8 cm. Berapakah luasnya?",
+ answer: "96",
+ code: "096",
+ hint: "Luas persegi panjang = panjang × lebar.",
+ item: {
+   icon: "📐",
+   name: "Penggaris Ajaib",
+   description: "Alat ukur yang membantu mengungkap ukuran bangun pada ruangan berikutnya."
+ },
+ clue: "Luas persegi panjang dengan panjang 12 cm dan lebar 8 cm adalah 96 cm².",
+ bonus: "Tabung eksperimen menyimpan bonus poin!",
+ bonusScore: 10,
+ objects: [
+  {id:"diagram",name:"Diagram",icon:"📐",x:15,y:30,type:"puzzle"},
+  {id:"table",name:"Meja",icon:"🧪",x:44,y:52,type:"item"},
+  {id:"tube",name:"Tabung",icon:"🧫",x:68,y:51,type:"bonus"},
+  {id:"door",name:"Pintu",icon:"🚪",x:86,y:48,type:"door"}
+ ]
+},
+
+{
+ name: "Kuil Harta Karun",
+ description: "Inilah ruangan terakhir. Di hadapanmu terdapat peti harta karun yang terkunci. Selesaikan tantangan terakhir!",
+ theme: "temple",
+ puzzleTitle: "Teka-teki Pecahan",
+ puzzleStory: "Pada dinding kuil terdapat tulisan pecahan.",
+ question: "Berapakah 3/4 dari 80?",
+ answer: "60",
+ code: "060",
+ hint: "Hitung 80 dibagi 4, kemudian kalikan 3.",
+ item: {
+   icon: "🔑",
+   name: "Kunci Harta Karun",
+   description: "Kunci terakhir untuk membuka peti harta karun!"
+ },
+ clue: "3/4 dari 80 adalah 60.",
+ bonus: "Kamu menemukan permata tambahan!",
+ bonusScore: 10,
+ objects: [
+  {id:"wall",name:"Tulisan kuno",icon:"📜",x:15,y:30,type:"puzzle"},
+  {id:"chest",name:"Peti kecil",icon:"🎁",x:43,y:51,type:"item"},
+  {id:"gem",name:"Permata",icon:"💎",x:68,y:49,type:"bonus"},
+  {id:"door",name:"Pintu kuil",icon:"🚪",x:85,y:47,type:"door"}
+ ]
+}
+
+];
+
+// ===================================
+// VARIABEL PERMAINAN
+// ===================================
+
+let currentRoom = 0;
+let score = 0;
+let foundItem = false;
+let solvedPuzzle = false;
+let collectedBonus = false;
+let inventory = [];
+let journal = [];
+let enteredCode = "";
+let toastTimer;
+let busy = false;
+
+// ===================================
+// MULAI DAN RENDER
+// ===================================
+
+function startGame() {
+ currentRoom = 0;
+ score = 0;
+ inventory = [];
+ journal = [];
+ busy = false;
+
+ show("home",false);
+ show("finish",false);
+ show("game",true);
+
+ renderRoom();
+}
+
+function show(id,visible) {
+ document.getElementById(id).classList.toggle("hidden",!visible);
+}
+
+function renderRoom() {
+
+ const r = rooms[currentRoom];
+
+ foundItem = false;
+ solvedPuzzle = false;
+ collectedBonus = false;
+
+ document.getElementById("level").textContent =
+ (currentRoom+1)+" / 4";
+
+ document.getElementById("score").textContent = score;
+
+ document.getElementById("clueCount").textContent =
+ journal.length+" / 4";
+
+ document.getElementById("status").textContent = "Mencari";
+
+ document.getElementById("roomTitle").textContent =
+ "🗺️ "+r.name;
+
+ document.getElementById("roomDescription").textContent =
+ r.description;
+
+ document.getElementById("sceneLabel").textContent =
+ "AREA 0"+(currentRoom+1);
+
+ document.getElementById("sceneMessage").textContent =
+ "🔍 Klik benda-benda untuk mencari petunjuk!";
+
+ const scene = document.getElementById("scene");
+
+ scene.className = "scene "+r.theme;
+
+ const objects = document.getElementById("objects");
+
+ objects.innerHTML = "";
+
+ r.objects.forEach(obj => {
+
+   const btn = document.createElement("button");
+
+   btn.className = "hotspot";
+
+   if(obj.type==="door") btn.classList.add("door");
+
+   btn.style.left = obj.x+"%";
+   btn.style.top = obj.y+"%";
+
+   btn.innerHTML =
+    `<span class="emoji">${obj.icon}</span>
+     <small>${obj.name}</small>`;
+
+   btn.onclick = () => interact(obj,btn);
+
+   objects.appendChild(btn);
+
+ });
+
+ updateInventory();
+ updateJournal();
+ updateProgress();
+
+}
+
+// ===================================
+// INTERAKSI BENDA
+// ===================================
+
+function interact(obj,btn) {
+
+ if(busy) return;
+
+ if(obj.type==="item") {
+
+   if(foundItem) {
+     notify("Barang ini sudah kamu temukan!");
+     return;
+   }
+
+   foundItem = true;
+
+   const r = rooms[currentRoom];
+
+   inventory.push(r.item);
+
+   score += 10;
+
+   updateInventory();
+
+   showItem(r.item);
+
+   btn.classList.add("done");
+
+   document.getElementById("sceneMessage").textContent =
+    "🎒 Barang berhasil ditemukan!";
+
+   updateStats();
+
+ }
+
+ else if(obj.type==="puzzle") {
+
+   if(solvedPuzzle) {
+     notify("Teka-teki sudah berhasil dipecahkan!");
+     return;
+   }
+
+   openPuzzle();
+
+ }
+
+ else if(obj.type==="bonus") {
+
+   if(collectedBonus) {
+     notify("Bonus sudah ditemukan!");
+     return;
+   }
+
+   collectedBonus = true;
+
+   const r = rooms[currentRoom];
+
+   score += r.bonusScore;
+
+   btn.classList.add("done");
+
+   updateStats();
+
+   document.getElementById("sceneMessage").textContent =
+     "⭐ "+r.bonus;
+
+   notify("⭐ "+r.bonus+" +10 poin!");
+
+ }
+
+ else if(obj.type==="door") {
+
+   if(!foundItem) {
+     notify("🔒 Cari dan kumpulkan barang di ruangan ini dahulu!");
+     return;
+   }
+
+   if(!solvedPuzzle) {
+     notify("🧩 Pecahkan teka-teki sebelum membuka pintu!");
+     return;
+   }
+
+   openKeypad();
+
+ }
+
+}
+
+// ===================================
+// INVENTARIS DAN CATATAN
+// ===================================
+
+function updateInventory() {
+
+ const box = document.getElementById("inventory");
+
+ if(inventory.length===0) {
+   box.innerHTML =
+   '<span style="color:#9da5bf;font-size:13px">Belum ada barang yang ditemukan.</span>';
+   return;
+ }
+
+ box.innerHTML = inventory.map(item =>
+  `<div class="inventory-item" title="${item.description}">
+   ${item.icon} ${item.name}
+   </div>`
+ ).join("");
+
+}
+
+function updateJournal() {
+
+ const box = document.getElementById("journal");
+
+ if(journal.length===0) {
+   box.textContent = "Belum ada petunjuk ditemukan.";
+   return;
+ }
+
+ box.innerHTML = journal.map((j,i) =>
+  `<div style="margin-bottom:8px">
+   <b style="color:#ffd36b">Petunjuk ${i+1}:</b> ${j}
+   </div>`
+ ).join("");
+
+}
+
+function updateStats() {
+
+ document.getElementById("score").textContent = score;
+
+ document.getElementById("status").textContent =
+ solvedPuzzle ? "Siap keluar" : "Mencari";
+
+ document.getElementById("clueCount").textContent =
+ journal.length+" / 4";
+
+ updateProgress();
+
+}
+
+function updateProgress() {
+
+ document.getElementById("progressBar").style.width =
+ (currentRoom/4*100)+"%";
+
+}
+
+// ===================================
+// MODAL BARANG
+// ===================================
+
+function showItem(item) {
+
+ document.getElementById("itemIcon").textContent = item.icon;
+
+ document.getElementById("itemTitle").textContent =
+ "Barang Ditemukan!";
+
+ document.getElementById("itemDescription").textContent =
+ item.description;
+
+ show("itemModal",true);
+
+}
+
+// ===================================
+// TEKA-TEKI
+// ===================================
+
+function openPuzzle() {
+
+ const r = rooms[currentRoom];
+
+ document.getElementById("puzzleTitle").textContent =
+ r.puzzleTitle;
+
+ document.getElementById("puzzleStory").textContent =
+ r.puzzleStory;
+
+ document.getElementById("puzzleQuestion").textContent =
+ r.question;
+
+ document.getElementById("puzzleAnswer").value = "";
+
+ document.getElementById("puzzleFeedback").textContent = "";
+
+ show("puzzleModal",true);
+
+}
+
+function checkPuzzle() {
+
+ const r = rooms[currentRoom];
+
+ const answer =
+ document.getElementById("puzzleAnswer").value.trim();
+
+ const feedback =
+ document.getElementById("puzzleFeedback");
+
+ if(answer==="") {
+   feedback.style.color="#ffb5a8";
+   feedback.textContent="Masukkan jawaban terlebih dahulu!";
+   return;
+ }
+
+ if(answer===r.answer) {
+
+   solvedPuzzle = true;
+
+   score += 30;
+
+   journal.push(r.clue);
+
+   feedback.style.color="#9cffc0";
+
+   feedback.textContent =
+   "🎉 BENAR! Kamu mendapatkan kode: "+r.code;
+
+   document.getElementById("sceneMessage").textContent =
+   "✨ Teka-teki terpecahkan! Sekarang buka pintu.";
+
+   document.getElementById("status").textContent =
+   "Siap keluar";
+
+   document.getElementById("score").textContent = score;
+
+   updateJournal();
+   updateStats();
+
+   setTimeout(() => {
+     closeModal("puzzleModal");
+     notify("🔐 Kode rahasia berhasil ditemukan!");
+   },1200);
+
+ } else {
+
+   feedback.style.color="#ffaaaa";
+
+   feedback.textContent =
+   "❌ Belum tepat. Coba hitung kembali!";
+
+ }
+
+}
+
+// ===================================
+// PETUNJUK
+// ===================================
+
+document.getElementById("puzzleQuestion")
+.addEventListener("dblclick",function() {
+
+ const r = rooms[currentRoom];
+
+ notify("💡 Petunjuk: "+r.hint);
+
+});
+
+// ===================================
+// KEYPAD
+// ===================================
+
+function openKeypad() {
+
+ enteredCode = "";
+
+ document.getElementById("keyDisplay").textContent = "---";
+
+ document.getElementById("keyFeedback").textContent = "";
+
+ show("keypadModal",true);
+
+}
+
+function pressKey(n) {
+
+ if(enteredCode.length>=3) return;
+
+ enteredCode += n;
+
+ document.getElementById("keyDisplay").textContent =
+ enteredCode.padEnd(3,"_");
+
+}
+
+function clearKey() {
+
+ enteredCode = "";
+
+ document.getElementById("keyDisplay").textContent = "---";
+
+}
+
+function checkCode() {
+
+ const r = rooms[currentRoom];
+
+ const feedback = document.getElementById("keyFeedback");
+
+ if(enteredCode.length!==3) {
+
+   feedback.textContent = "Masukkan tiga angka terlebih dahulu!";
+
+   feedback.style.color="#ffb5a8";
+
+   return;
+ }
+
+ if(enteredCode===r.code) {
+
+   busy = true;
+
+   feedback.style.color="#9cffc0";
+
+   feedback.textContent = "🔓 KODE BENAR! PINTU TERBUKA!";
+
+   document.getElementById("sceneMessage").textContent =
+   "🚪 PINTU TERBUKA!";
+
+   score += 20;
+
+   document.getElementById("score").textContent = score;
+
+   setTimeout(() => {
+
+     closeModal("keypadModal");
+
+     if(currentRoom===rooms.length-1) {
+
+       finishGame();
+
+     } else {
+
+       currentRoom++;
+
+       busy = false;
+
+       renderRoom();
+
+       notify("🎉 Kamu berhasil memasuki ruangan berikutnya!");
+
+     }
+
+   },1000);
+
+ } else {
+
+   feedback.style.color="#ffaaaa";
+
+   feedback.textContent =
+   "❌ Kode salah! Periksa kembali hasil perhitunganmu.";
+
+   enteredCode = "";
+
+   document.getElementById("keyDisplay").textContent = "---";
+
+ }
+
+}
+
+// ===================================
+// MODAL DAN NOTIFIKASI
+// ===================================
+
+function closeModal(id) {
+
+ show(id,false);
+
+}
+
+function notify(message) {
+
+ const toast = document.getElementById("toast");
+
+ toast.textContent = message;
+
+ show("toast",true);
+
+ clearTimeout(toastTimer);
+
+ toastTimer = setTimeout(() => {
+   show("toast",false);
+ },2800);
+
+}
+
+// ===================================
+// TAMAT
+// ===================================
+
+function finishGame() {
+
+ busy = false;
+
+ show("game",false);
+
+ show("finish",true);
+
+ document.getElementById("progressBar").style.width = "100%";
+
+ document.getElementById("finalScore").textContent =
+ score+" POIN";
+
+ document.getElementById("finalDetail").textContent =
+ "Kamu berhasil menyelesaikan 4 ruangan, mengumpulkan "+
+ inventory.length+" barang, dan menemukan "+
+ journal.length+" petunjuk.";
+
+}
+
+function restartGame() {
+
+ show("finish",false);
+
+ show("home",true);
+
+}
+
+// ENTER UNTUK JAWAB SOAL
+
+document.getElementById("puzzleAnswer")
+.addEventListener("keydown",function(e) {
+
+ if(e.key==="Enter") checkPuzzle();
+
+});
+
+</script>
+
+</body>
+</html>
